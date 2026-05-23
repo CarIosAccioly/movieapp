@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('Login')}"></head>
+<body>
+<nav th:replace="~{layout :: navbar}"></nav>
+
+<div class="container auth-container">
+    <div class="auth-card">
+        <h2 class="auth-title">Welcome Back</h2>
+        <p class="auth-subtitle">Sign in to explore the catalog</p>
+
+        <div th:if="${param.error}" class="alert alert-danger">Invalid username or password.</div>
+        <div th:if="${param.logout}" class="alert alert-info">You have been logged out.</div>
+        <div th:if="${param.registered}" class="alert alert-success">Registration successful! Please log in.</div>
+
+        <form th:action="@{/login}" method="post">
+            <div class="mb-3">
+                <label class="form-label">Username</label>
+                <input type="text" name="username" class="form-control" required/>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input type="password" name="password" class="form-control" required/>
+            </div>
+            <button type="submit" class="btn btn-warning w-100">Sign In</button>
+        </form>
+        <p class="text-center mt-3">No account? <a href="/register">Sign up here</a></p>
+    </div>
+</div>
+
+<footer th:replace="~{layout :: footer}"></footer>
+</body>
+</html>
