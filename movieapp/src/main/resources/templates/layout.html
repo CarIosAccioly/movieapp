@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title th:text="${title}">Movie Catalog</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark custom-navbar">
+    <div class="container">
+        <a class="navbar-brand brand-logo" href="/">🎬 CinemaVault</a>
+        <div class="ms-auto">
+            <a sec:authorize="isAuthenticated()" href="/movies" class="btn btn-outline-light btn-sm me-2">Movies</a>
+            <span sec:authorize="isAuthenticated()" class="text-light me-3">
+                Hi, <span sec:authentication="name"></span>!
+            </span>
+            <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post" class="d-inline">
+                <button type="submit" class="btn btn-danger btn-sm">Logout</button>
+            </form>
+            <a sec:authorize="!isAuthenticated()" href="/login" class="btn btn-outline-light btn-sm me-2">Login</a>
+            <a sec:authorize="!isAuthenticated()" href="/register" class="btn btn-warning btn-sm">Sign Up</a>
+        </div>
+    </div>
+</nav>
+<footer th:fragment="footer" class="custom-footer mt-5">
+    <div class="container text-center">
+        <p class="mb-0">© 2026 CinemaVault · Curated Movies Database · Built with Spring Boot</p>
+    </div>
+</footer>
+</body>
+</html>
