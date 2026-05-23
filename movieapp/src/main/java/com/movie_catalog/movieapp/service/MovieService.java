@@ -37,7 +37,7 @@ public class MovieService {
         if (keyword == null || keyword.isBlank()) return findAll();
         return movieRepository.search(keyword.trim());
     }
-    
+
     public long count() {
         return movieRepository.count();
     }
