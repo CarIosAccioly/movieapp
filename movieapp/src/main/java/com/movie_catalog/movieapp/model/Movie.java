@@ -2,9 +2,17 @@ package com.movie_catalog.movieapp.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "movies")
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Movie {
 
     @Id
@@ -16,7 +24,7 @@ public class Movie {
     @Column(nullable = false, length = 200)
     private String title;
 
-    @NotBlank(message = "Release year is required")
+    @NotNull(message = "Release year is required")
     @Min(value = 1888, message = "Year must be 1888 or latter")
     @Max(value = 2100, message = "Year cannot exceed 2100")
     private Integer releaseYear;

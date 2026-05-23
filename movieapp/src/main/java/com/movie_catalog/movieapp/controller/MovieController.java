@@ -19,7 +19,7 @@ public class MovieController {
         this.movieService = movieService;
     }
 
-    @GetMapping
+    @GetMapping("")
     public String list(@RequestParam(required = false) String keyword, Model model) {
         model.addAttribute("movies",  movieService.search(keyword));
         model.addAttribute("keyword", keyword);
