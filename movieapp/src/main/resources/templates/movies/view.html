@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('Movie Details')}"></head>
+<body>
+<nav th:replace="~{layout :: navbar}"></nav>
+
+<div class="container py-4">
+    <div class="detail-card">
+        <div class="row">
+            <div class="col-md-4">
+                <img th:src="${movie.posterUrl}" onerror="this.src='/images/placeholder.jpg'"
+                     alt="poster" class="detail-poster"/>
+            </div>
+            <div class="col-md-8">
+                <h1 th:text="${movie.title}"></h1>
+                <p class="text-muted">
+                    <span th:text="${movie.releaseYear}"></span> ·
+                    <span th:text="${movie.genre}"></span> ·
+                    Directed by <strong th:text="${movie.director}"></strong>
+                </p>
+                <p class="rating-big">⭐ <span th:text="${movie.rating}"></span>/10</p>
+                <h4>Overview</h4>
+                <p th:text="${movie.overview}"></p>
+
+                <a th:href="@{/movies/{id}/edit(id=${movie.id})}" class="btn btn-warning">Edit</a>
+                <a href="/movies" class="btn btn-outline-secondary">Back to list</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{layout :: footer}"></footer>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('All Movies')}"></head>
+<body>
+<nav th:replace="~{layout :: navbar}"></nav>
+
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="page-title">Movie Catalog</h2>
+        <a href="/movies/new" class="btn btn-warning">+ Add New Movie</a>
+    </div>
+
+    <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+
+    <form method="get" action="/movies" class="search-bar mb-4">
+        <input type="text" name="keyword" th:value="${keyword}" class="form-control" placeholder="Search by title, genre, or director..."/>
+        <button type="submit" class="btn btn-dark ms-2">Search</button>
+        <a href="/movies" class="btn btn-outline-secondary ms-2">Clear</a>
+    </form>
+
+    <div class="row g-4">
+        <div class="col-md-4 col-lg-3" th:each="m : ${movies}">
+            <div class="movie-card">
+                <img th:if="${m.posterUrl != null and !m.posterUrl.isEmpty()}"
+                     th:src="${m.posterUrl}" alt="poster" class="movie-poster"
+                     onerror="this.src='/images/placeholder.jpg'"/>
+                <img th:unless="${m.posterUrl != null and !m.posterUrl.isEmpty()}"
+                     src="/images/placeholder.jpg" alt="poster" class="movie-poster"/>
+                <div class="movie-card-body">
+                    <h5 th:text="${m.title}">Title</h5>
+                    <p class="text-muted small">
+                        <span th:text="${m.releaseYear}"></span> ·
+                        <span th:text="${m.genre}"></span>
+                    </p>
+                    <p class="rating">⭐ <span th:text="${m.rating}"></span>/10</p>
+                    <div class="d-flex gap-2 mt-2">
+                        <a th:href="@{/movies/{id}(id=${m.id})}" class="btn btn-sm btn-outline-dark">View</a>
+                        <a th:href="@{/movies/{id}/edit(id=${m.id})}" class="btn btn-sm btn-outline-primary">Edit</a>
+                        <form th:action="@{/movies/{id}/delete(id=${m.id})}" method="post" class="d-inline"
+                              onsubmit="return confirm('Delete this movie?');">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div th:if="${#lists.isEmpty(movies)}" class="text-center text-muted">
+            <p>No movies found. <a href="/movies/new">Add the first one!</a></p>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{layout :: footer}"></footer>
+</body>
+</html>

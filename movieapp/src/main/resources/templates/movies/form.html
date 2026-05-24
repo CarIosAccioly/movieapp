@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('Movie Form')}"></head>
+<body>
+<nav th:replace="~{layout :: navbar}"></nav>
+
+<div class="container py-4">
+    <div class="form-card">
+        <h2 th:text="${mode == 'create'} ? 'Add New Movie' : 'Edit Movie'"></h2>
+
+        <form th:action="${mode == 'create'} ? @{/movies} : @{/movies/{id}(id=${movie.id})}"
+              th:object="${movie}" method="post" novalidate>
+
+            <div class="mb-3">
+                <label class="form-label">Title</label>
+                <input type="text" th:field="*{title}" class="form-control"/>
+                <div class="text-danger small" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Release Year</label>
+                    <input type="number" th:field="*{releaseYear}" class="form-control"/>
+                    <div class="text-danger small" th:if="${#fields.hasErrors('releaseYear')}" th:errors="*{releaseYear}"></div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Rating (0-10)</label>
+                    <input type="number" step="0.1" th:field="*{rating}" class="form-control"/>
+                    <div class="text-danger small" th:if="${#fields.hasErrors('rating')}" th:errors="*{rating}"></div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Genre</label>
+                <input type="text" th:field="*{genre}" class="form-control"/>
+                <div class="text-danger small" th:if="${#fields.hasErrors('genre')}" th:errors="*{genre}"></div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Director</label>
+                <input type="text" th:field="*{director}" class="form-control"/>
+                <div class="text-danger small" th:if="${#fields.hasErrors('director')}" th:errors="*{director}"></div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Poster URL</label>
+                <input type="text" th:field="*{posterUrl}" class="form-control"/>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Overview</label>
+                <textarea th:field="*{overview}" rows="4" class="form-control"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-warning">Save</button>
+            <a href="/movies" class="btn btn-outline-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+
+<footer th:replace="~{layout :: footer}"></footer>
+</body>
+</html>

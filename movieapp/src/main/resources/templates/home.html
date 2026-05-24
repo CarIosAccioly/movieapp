@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('CinemaVault - Home')}"></head>
+<body>
+<nav th:replace="~{layout :: navbar}"></nav>
+
+<section class="hero-section">
+    <div class="container text-center">
+        <h1 class="hero-title">Discover Cinema's Greatest Stories</h1>
+        <p class="hero-subtitle">A curated catalog of the world's most celebrated films</p>
+        <div class="stat-box">
+            <span class="stat-number" th:text="${movieCount}">0</span>
+            <span class="stat-label">Films in Collection</span>
+        </div>
+        <div class="mt-4">
+            <a href="/movies" class="btn btn-warning btn-lg me-2">Browse Movies</a>
+            <a href="/register" class="btn btn-outline-light btn-lg">Sign Up</a>
+        </div>
+    </div>
+</section>
+
+<section class="container py-5">
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="feature-card">
+                <h3>🎥 Curated Catalog</h3>
+                <p>Loaded from IMDb's top-rated films dataset.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature-card">
+                <h3>✏️ Full Control</h3>
+                <p>Create, read, update, and delete movies with ease.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature-card">
+                <h3>🔒 Secure Access</h3>
+                <p>Personal accounts with encrypted password storage.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer th:replace="~{layout :: footer}"></footer>
+</body>
+</html>
