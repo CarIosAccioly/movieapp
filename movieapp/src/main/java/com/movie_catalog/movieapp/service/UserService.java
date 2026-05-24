@@ -12,17 +12,20 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 
+// Handles user registration and supplies Spring Security with user details for authentication.
 @Service
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    // Constructor injection of the repository and password encoder.
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
+    // Build a new USER-role account from the form data, hashing the password before saving.
     public User register(UserRegistrationDto userRegistrationDto) {
         User user = User.builder()
                 .username(userRegistrationDto.getUsername())
@@ -35,14 +38,17 @@ public class UserService implements UserDetailsService {
         return userRepository.save(user);
     }
 
+    // True if the username is already in use.
     public boolean usernameExists(String username) {
         return userRepository.existsByUsername(username);
     }
 
+    // True if the email is already registered.
     public boolean emailExists(String email) {
         return userRepository.existsByEmail(email);
     }
 
+    // Called by Spring Security at login: loads the user and maps their role to an authority.
     @Override
     public UserDetails loadUserByUsername(@NonNull String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username)

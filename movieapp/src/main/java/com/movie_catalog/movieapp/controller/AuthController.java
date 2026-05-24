@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+// Handles login and registration pages.
 @Controller
 public class AuthController {
 
@@ -20,25 +21,30 @@ public class AuthController {
         this.userService = userService;
     }
 
+    // GET /login : render the login form (Spring Security processes the submission).
     @GetMapping("/login")
     public String login() {
         return "login";
     }
 
+    // GET /register : render the empty registration form.
     @GetMapping("/register")
     public String registerForm(Model model) {
         model.addAttribute("user", new UserRegistrationDto());
         return "register";
     }
 
+    // POST /register : validate input, create the account, then redirect to login.
     @PostMapping("/register")
     public String register(@Valid @ModelAttribute("user") UserRegistrationDto dto,
                            BindingResult br, Model model) {
 
         // Backend validation logic (additional to annotations)
+        // Ensure the two password fields match.
         if (!dto.getPassword().equals(dto.getConfirmPassword())) {
             br.addError(new FieldError("user", "confirmPassword", "Passwords do not match"));
         }
+        // Reject usernames/emails that are already in use.
         if (userService.usernameExists(dto.getUsername())) {
             br.addError(new FieldError("user", "username", "Username already taken"));
         }
@@ -46,6 +52,7 @@ public class AuthController {
             br.addError(new FieldError("user", "email", "Email already registered"));
         }
 
+        // If anything failed, redisplay the form with the errors.
         if (br.hasErrors()) return "register";
 
         userService.register(dto);
